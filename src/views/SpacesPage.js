@@ -22,17 +22,15 @@ export default function SpacesPage() {
   useEffect(() => {
     if (!user) return navigate('/')
 
-    const initChat = async () => {
-      const client = StreamChat.getInstance(API_KEY)
+    const client = StreamChat.getInstance(API_KEY)
 
-      await client.connectUser(user, client.devToken(user.id))
+    client.connectUser(user, client.devToken(user.id))
 
-      setChatClient(client)
-    }
+    setChatClient(client)
 
-    initChat()
-
-    return () => chatClient?.disconnectUser() // cleanup user connection on unmount
+    return () => {
+      client?.disconnectUser()
+    } // cleanup user connection on unmount
   }, [])
 
   return (
