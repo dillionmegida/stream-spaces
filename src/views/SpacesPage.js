@@ -6,6 +6,7 @@ import { Chat, LoadingIndicator } from 'stream-chat-react'
 import Layout from '../components/Layout'
 import { getFromStorage } from '../utils/storage'
 import users from '../users'
+import SpacesLayout from '../components/spaces/SpacesLayout'
 
 import 'stream-chat-react/dist/css/index.css'
 
@@ -35,7 +36,13 @@ export default function SpacesPage() {
 
   return (
     <Layout>
-      {!chatClient ? <LoadingIndicator /> : <Chat client={chatClient}></Chat>}
+      {!chatClient ? (
+        <LoadingIndicator />
+      ) : (
+        <Chat client={chatClient}>
+          <SpacesLayout />
+        </Chat>
+      )}
     </Layout>
   )
 }
