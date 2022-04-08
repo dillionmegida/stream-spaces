@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import { useContext } from 'react'
+import { SpacesContext } from './SpacesLayout'
 
 const Container = styled.div`
   display: flex;
@@ -49,6 +51,8 @@ const Container = styled.div`
 `
 
 export default function SpacesEmpty() {
+  const { setIsCreatingSpace } = useContext(SpacesContext)
+
   return (
     <Container>
       <div className="img-block">
@@ -61,7 +65,12 @@ export default function SpacesEmpty() {
       <p>
         Tackle group projects, chat with your team, or share your interests 🍰
       </p>
-      <button className="create-space-btn">Create a space</button>
+      <button
+        onClick={() => setIsCreatingSpace(true)}
+        className="create-space-btn"
+      >
+        Create a space
+      </button>
       <button className="browse-spaces-btn">Browse spaces</button>
     </Container>
   )

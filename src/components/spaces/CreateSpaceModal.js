@@ -18,14 +18,15 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .modal-container {
+    width: 100%;
+    max-width: 600px;
+  }
 `
 
-const Modal = styled.div`
-  max-width: 600px;
-  width: 100%;
+const Modal = styled(Dialog)`
   background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 12px 15px 0 rgb(0 0 0 / 24%);
   padding: 30px 0;
 
   form {
@@ -365,119 +366,123 @@ export default function CreateSpaceModal() {
 
   return (
     <Container>
-      <Modal ref={modalRef}>
-        <form onSubmit={onSubmit}>
-          <h2>Create a space</h2>
-          <div className="space-name">
-            <div className="emoji-container">
-              <button
-                onClick={() => !emojiPickerOpened && setEmojiPickerOpened(true)}
-                className="emoji-btn"
-                type="button"
-              >
-                {selectedEmoji ? (
-                  selectedEmoji.native
-                ) : (
-                  <img
-                    src="/assets/icons/smiling-emoji.svg"
-                    alt="Placeholder emoji"
-                  />
-                )}
-              </button>
+      <div className="modal-container" ref={modalRef}>
+        <Modal>
+          <form onSubmit={onSubmit}>
+            <h2>Create a space</h2>
+            <div className="space-name">
+              <div className="emoji-container">
+                <button
+                  onClick={() =>
+                    !emojiPickerOpened && setEmojiPickerOpened(true)
+                  }
+                  className="emoji-btn"
+                  type="button"
+                >
+                  {selectedEmoji ? (
+                    selectedEmoji.native
+                  ) : (
+                    <img
+                      src="/assets/icons/smiling-emoji.svg"
+                      alt="Placeholder emoji"
+                    />
+                  )}
+                </button>
 
-              {emojiPickerOpened && (
-                <div ref={emojiPickerRef} className="emoji-picker">
-                  <Picker onSelect={onSelectEmoji} />
+                {emojiPickerOpened && (
+                  <div ref={emojiPickerRef} className="emoji-picker">
+                    <Picker onSelect={onSelectEmoji} />
+                  </div>
+                )}
+              </div>
+
+              <div className="space-name__input-group">
+                <input
+                  name="name"
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Space name"
+                />
+              </div>
+            </div>
+
+            <div className="add-users-container">
+              <div className="input-group">
+                {addedUsers.length > 0 &&
+                  addedUsers.map((u) => (
+                    <div className="added-user" key={u.id}>
+                      <img className="added-user__img" src={u.image} alt="" />
+                      <span className="added-user__name">{u.name}</span>
+                      <button
+                        onClick={(e) => removeAddedUser(e, u)}
+                        type="button"
+                        className="added-user__remove-btn"
+                      >
+                        X
+                      </button>
+                    </div>
+                  ))}
+                <input
+                  onFocus={() => setPeoplePopupOpened(true)}
+                  ref={addUserInputRef}
+                  onChange={({ target }) => setUsersSearch(target.value)}
+                  value={usersSearch}
+                  placeholder={
+                    addedUsers.length < 1 ? 'Enter name of person' : ''
+                  }
+                />
+              </div>
+              {peoplePopupOpened && filteredUsers && filteredUsers.length > 0 && (
+                <div ref={peoplePopupRef}>
+                  <Dialog className="users-popup">
+                    <ul>
+                      {filteredUsers.map((u) => (
+                        <li key={u.id}>
+                          <button
+                            onClick={(e) => addUser(e, u)}
+                            className="users-popup__user"
+                          >
+                            <div className="users-popup__user__image">
+                              <img src={u.image} alt="" />
+                            </div>
+                            <div className="users-popup__user__details">
+                              <div
+                                className={classNames(
+                                  'online-indicator',
+                                  u.online && 'online-indicator--online'
+                                )}
+                              ></div>
+                              <span className="users-popup__user__name">
+                                {u.name}
+                              </span>
+                            </div>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </Dialog>
                 </div>
               )}
             </div>
 
-            <div className="space-name__input-group">
-              <input
-                name="name"
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Space name"
-              />
+            <div className="actions">
+              <button
+                onClick={() => setIsCreatingSpace(false)}
+                className="actions__cancel"
+                type="button"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={!name.length}
+                className="actions__submit"
+                type="submit"
+              >
+                Create
+              </button>
             </div>
-          </div>
-
-          <div className="add-users-container">
-            <div className="input-group">
-              {addedUsers.length > 0 &&
-                addedUsers.map((u) => (
-                  <div className="added-user" key={u.id}>
-                    <img className="added-user__img" src={u.image} alt="" />
-                    <span className="added-user__name">{u.name}</span>
-                    <button
-                      onClick={(e) => removeAddedUser(e, u)}
-                      type="button"
-                      className="added-user__remove-btn"
-                    >
-                      X
-                    </button>
-                  </div>
-                ))}
-              <input
-                onFocus={() => setPeoplePopupOpened(true)}
-                ref={addUserInputRef}
-                onChange={({ target }) => setUsersSearch(target.value)}
-                value={usersSearch}
-                placeholder={
-                  addedUsers.length < 1 ? 'Enter name of person' : ''
-                }
-              />
-            </div>
-            {peoplePopupOpened && filteredUsers && filteredUsers.length > 0 && (
-              <div ref={peoplePopupRef}>
-                <Dialog className="users-popup">
-                  <ul>
-                    {filteredUsers.map((u) => (
-                      <li key={u.id}>
-                        <button
-                          onClick={(e) => addUser(e, u)}
-                          className="users-popup__user"
-                        >
-                          <div className="users-popup__user__image">
-                            <img src={u.image} alt="" />
-                          </div>
-                          <div className="users-popup__user__details">
-                            <div
-                              className={classNames(
-                                'online-indicator',
-                                u.online && 'online-indicator--online'
-                              )}
-                            ></div>
-                            <span className="users-popup__user__name">
-                              {u.name}
-                            </span>
-                          </div>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </Dialog>
-              </div>
-            )}
-          </div>
-
-          <div className="actions">
-            <button
-              onClick={() => setIsCreatingSpace(false)}
-              className="actions__cancel"
-              type="button"
-            >
-              Cancel
-            </button>
-            <button
-              disabled={!name.length}
-              className="actions__submit"
-              type="submit"
-            >
-              Create
-            </button>
-          </div>
-        </form>
-      </Modal>
+          </form>
+        </Modal>
+      </div>
     </Container>
   )
 }
