@@ -8,6 +8,7 @@ import Header from './Header'
 import SpaceContent from './SpaceContent'
 import SpacesList from './SpacesList'
 import { LayoutContext } from '../Layout'
+import CreateSpaceModal from './CreateSpaceModal'
 
 const Container = styled.div`
   height: 100vh;
@@ -74,6 +75,9 @@ export default function SpacesLayout() {
   const navigate = useNavigate()
   const { client, setActiveChannel, channel } = useChatContext()
   const [spaces, setSpaces] = useState(null)
+  const [users, setUsers] = useState(null)
+
+  const [isCreatingSpace, setIsCreatingSpace] = useState(false)
 
   const setActiveSpace = (space, shouldNavigate = true) => {
     setActiveChannel(space)
@@ -97,7 +101,15 @@ export default function SpacesLayout() {
       setSpaces(spaces)
     }
 
+    const initUsers = async () => {
+      const response = await client.queryUsers({})
+      setUsers(
+        response.users.filter(({ id }) => id !== 'dillion-megida-stream')
+      )
+    }
+
     initChannels()
+    initUsers()
   }, [client])
 
   return (
@@ -108,6 +120,9 @@ export default function SpacesLayout() {
         spaces,
         activeSpace: channel,
         setActiveSpace,
+        users,
+        isCreatingSpace,
+        setIsCreatingSpace,
       }}
     >
       <Container>
@@ -128,6 +143,8 @@ export default function SpacesLayout() {
             <SpaceContent></SpaceContent>
           </div>
         </div>
+
+        {isCreatingSpace && <CreateSpaceModal />}
       </Container>
     </SpacesContext.Provider>
   )

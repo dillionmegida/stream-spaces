@@ -97,7 +97,7 @@ export default function SpaceContextMenu({ space, onClickOption }) {
         <button
           onClick={() => menuClicks[m.id]()}
           className="menu-btn"
-          key={m.label}
+          key={m.id}
         >
           <div className="menu-btn__icon">
             <img src={m.icon} alt="" />

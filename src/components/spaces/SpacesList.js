@@ -126,7 +126,8 @@ const Container = styled.div`
 `
 
 export default function SpacesList() {
-  const { channelListKey } = useContext(SpacesContext)
+  const { channelListKey, spaces, setActiveSpace, setIsCreatingSpace } =
+    useContext(SpacesContext)
   const { client } = useChatContext()
 
   const location = useLocation()
@@ -141,8 +142,6 @@ export default function SpacesList() {
     },
     [showNewSpaceDialog]
   )
-
-  const { spaces, setActiveSpace } = useContext(SpacesContext)
 
   const { space_id } = queryString.parse(location.search)
 
@@ -186,7 +185,7 @@ export default function SpacesList() {
                 },
               ].map((menu) => {
                 const actions = {
-                  create: () => null,
+                  create: () => setIsCreatingSpace(true),
                   browse: () => null,
                 }
 
