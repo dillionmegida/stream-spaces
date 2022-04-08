@@ -1,6 +1,10 @@
+import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useChatContext } from 'stream-chat-react'
 import styled from 'styled-components'
 
 import Dialog from '../Dialog'
+import { SpacesContext } from './SpacesLayout'
 
 const Container = styled(Dialog)`
   width: 100%;
@@ -62,7 +66,22 @@ const Container = styled(Dialog)`
 `
 
 export default function SpaceContextMenu({ space, onClickOption }) {
-  const onLeave = async () => {}
+  const { client } = useChatContext()
+
+  const { setActiveSpace, spaces, activeSpace } = useContext(SpacesContext)
+
+  const navigate = useNavigate()
+
+  const onLeave = async () => {
+    space.removeMembers([client.user.id])
+
+    if (activeSpace.cid === space.cid) {
+      const spacesForThisUser = spaces.filter((s) => s.cid !== space.cid)
+
+      setActiveSpace(spacesForThisUser[0])
+      navigate('?space_id=' + spacesForThisUser[0].id)
+    }
+  }
 
   const onPin = async () => {
     onClickOption()
