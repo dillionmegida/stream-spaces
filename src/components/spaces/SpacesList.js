@@ -126,8 +126,13 @@ const Container = styled.div`
 `
 
 export default function SpacesList() {
-  const { channelListKey, spaces, setActiveSpace, setIsCreatingSpace } =
-    useContext(SpacesContext)
+  const {
+    channelListKey,
+    spaces,
+    setActiveSpace,
+    setIsCreatingSpace,
+    setIsBrowsingSpaces,
+  } = useContext(SpacesContext)
   const { client } = useChatContext()
 
   const location = useLocation()
@@ -186,7 +191,7 @@ export default function SpacesList() {
               ].map((menu) => {
                 const actions = {
                   create: () => setIsCreatingSpace(true),
-                  browse: () => null,
+                  browse: () => setIsBrowsingSpaces(true),
                 }
 
                 return (

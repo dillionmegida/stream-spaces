@@ -51,7 +51,7 @@ const Container = styled.div`
 `
 
 export default function SpacesEmpty() {
-  const { setIsCreatingSpace } = useContext(SpacesContext)
+  const { setIsCreatingSpace, setIsBrowsingSpaces } = useContext(SpacesContext)
 
   return (
     <Container>
@@ -71,7 +71,12 @@ export default function SpacesEmpty() {
       >
         Create a space
       </button>
-      <button className="browse-spaces-btn">Browse spaces</button>
+      <button
+        onClick={() => setIsBrowsingSpaces(true)}
+        className="browse-spaces-btn"
+      >
+        Browse spaces
+      </button>
     </Container>
   )
 }

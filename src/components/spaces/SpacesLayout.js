@@ -9,6 +9,7 @@ import SpaceContent from './SpaceContent'
 import SpacesList from './SpacesList'
 import { LayoutContext } from '../Layout'
 import CreateSpaceModal from './CreateSpaceModal'
+import BrowseSpacesModal from './BrowseSpacesModal'
 
 const Container = styled.div`
   height: 100vh;
@@ -78,6 +79,7 @@ export default function SpacesLayout() {
   const [users, setUsers] = useState(null)
 
   const [isCreatingSpace, setIsCreatingSpace] = useState(false)
+  const [isBrowsingSpaces, setIsBrowsingSpaces] = useState(false)
 
   const setActiveSpace = (space, shouldNavigate = true) => {
     setActiveChannel(space)
@@ -123,6 +125,8 @@ export default function SpacesLayout() {
         users,
         isCreatingSpace,
         setIsCreatingSpace,
+        isBrowsingSpaces,
+        setIsBrowsingSpaces,
       }}
     >
       <Container>
@@ -145,6 +149,7 @@ export default function SpacesLayout() {
         </div>
 
         {isCreatingSpace && <CreateSpaceModal />}
+        {isBrowsingSpaces && <BrowseSpacesModal />}
       </Container>
     </SpacesContext.Provider>
   )
