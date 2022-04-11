@@ -114,6 +114,46 @@ export default function SpacesLayout() {
     initUsers()
   }, [client])
 
+  const MAX_PINS = 3
+
+  const pinSpace = async (cid) => {
+    const alreadyPinnedSpaces = client.user.pinned_spaces || []
+
+    if (alreadyPinnedSpaces.length >= MAX_PINS) {
+      return alert(`Cannot pin more than ${MAX_PINS} spaces`)
+    }
+
+    await client.upsertUser({
+      id: client.user.id,
+      image: client.user.image,
+      name: client.user.name,
+      pinned_spaces: [cid, ...alreadyPinnedSpaces],
+    })
+
+    updateChannelListKey()
+  }
+
+  const unpinSpace = async (cid, updateList = true) => {
+    const pinnedSpaces = [...client.user.pinned_spaces]
+
+    const targetSpace = pinnedSpaces.findIndex((channelCid) => {
+      return channelCid === cid
+    })
+
+    if (targetSpace > -1) {
+      pinnedSpaces.splice(targetSpace, 1)
+
+      await client.upsertUser({
+        id: client.user.id,
+        image: client.user.image,
+        name: client.user.name,
+        pinned_spaces: [...pinnedSpaces],
+      })
+
+      if (updateList) updateChannelListKey()
+    }
+  }
+
   return (
     <SpacesContext.Provider
       value={{
@@ -127,6 +167,8 @@ export default function SpacesLayout() {
         setIsCreatingSpace,
         isBrowsingSpaces,
         setIsBrowsingSpaces,
+        pinSpace,
+        unpinSpace,
       }}
     >
       <Container>

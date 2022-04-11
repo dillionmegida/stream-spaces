@@ -1,5 +1,7 @@
+import classNames from 'classnames'
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useChatContext } from 'stream-chat-react'
 import styled from 'styled-components'
 
 import useClickOutside from '../../hooks/useClickOutside'
@@ -107,6 +109,8 @@ export default function SpaceItem({
   const navigate = useNavigate()
   const menuRef = useRef(null)
 
+  const { client } = useChatContext()
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const onClickSpace = () => {
@@ -122,6 +126,8 @@ export default function SpaceItem({
     { ref: menuRef, cb: () => isMenuOpen && setIsMenuOpen(false) },
     [isMenuOpen]
   )
+
+  const spaceIsPinned = client.user.pinned_spaces?.includes(channel.cid)
 
   return (
     <Container className={active ? 'active' : ''}>
@@ -141,7 +147,7 @@ export default function SpaceItem({
       </button>
       <button onClick={onClickSpaceMenu} className="more-btn">
         <img
-          className="pin-icon"
+          className={classNames('pin-icon', spaceIsPinned && 'pin-icon--show')}
           src="/assets/icons/pin-white.svg"
           alt="Pin indicator"
         />

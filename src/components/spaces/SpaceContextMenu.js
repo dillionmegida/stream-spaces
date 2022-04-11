@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useChatContext } from 'stream-chat-react'
@@ -68,7 +69,8 @@ const Container = styled(Dialog)`
 export default function SpaceContextMenu({ space, onClickOption }) {
   const { client } = useChatContext()
 
-  const { setActiveSpace, spaces, activeSpace } = useContext(SpacesContext)
+  const { setActiveSpace, spaces, activeSpace, pinSpace, unpinSpace } =
+    useContext(SpacesContext)
 
   const navigate = useNavigate()
 
@@ -84,16 +86,20 @@ export default function SpaceContextMenu({ space, onClickOption }) {
   }
 
   const onPin = async () => {
+    pinSpace(space.cid)
     onClickOption()
   }
 
   const onUnpin = async () => {
+    unpinSpace(space.cid)
     onClickOption()
   }
 
+  const spaceIsPinned = client.user.pinned_spaces?.includes(space.cid)
+
   const menu = [
     {
-      label: 'Pin',
+      label: spaceIsPinned ? 'Unpin' : 'Pin',
       icon: '/assets/icons/pin.svg',
       id: 'pin',
     },
@@ -107,7 +113,7 @@ export default function SpaceContextMenu({ space, onClickOption }) {
 
   const menuClicks = {
     leave: onLeave,
-    pin: onPin,
+    pin: spaceIsPinned ? onUnpin : onPin,
   }
 
   return (
@@ -118,7 +124,11 @@ export default function SpaceContextMenu({ space, onClickOption }) {
           className="menu-btn"
           key={m.id}
         >
-          <div className="menu-btn__icon">
+          <div
+            className={classNames('menu-btn__icon', `menu-btn__icon--${m.id}`, {
+              [`menu-btn__icon--${m.id}--unpin`]: spaceIsPinned,
+            })}
+          >
             <img src={m.icon} alt="" />
           </div>
           <div className="menu-btn__details">

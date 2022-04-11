@@ -167,6 +167,27 @@ export default function SpacesList() {
 
   const noSpaces = spaces?.length < 1
 
+  const spaceRenderFilterFn = (spaces) => {
+    if (!client.user.pinned_spaces || !client.user.pinned_spaces.length)
+      return spaces
+
+    let spacesCopy = [...spaces]
+
+    const filteredSpaces = []
+
+    client.user.pinned_spaces.forEach((cid) => {
+      const channelId = spacesCopy.findIndex((c) => c.cid === cid)
+      if (channelId > -1) {
+        filteredSpaces.push(spacesCopy[channelId])
+        spacesCopy.splice(channelId, 1)
+      }
+    })
+
+    filteredSpaces.push(...spacesCopy)
+
+    return filteredSpaces
+  }
+
   return (
     <Container>
       <div className="new-space-container">
@@ -230,6 +251,7 @@ export default function SpacesList() {
               customType: 'space',
               members: { $in: [client.user.id] },
             }}
+            channelRenderFilterFn={spaceRenderFilterFn}
           />
         </div>
       )}
