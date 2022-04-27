@@ -10,7 +10,7 @@ import SpacesLayout from '../components/spaces/SpacesLayout'
 
 import 'stream-chat-react/dist/css/index.css'
 
-const API_KEY = 'f5wu7bvh4xg5'
+const API_KEY = 'ENTER-API-KEY-HERE'
 
 export default function SpacesPage() {
   const [chatClient, setChatClient] = useState(null)

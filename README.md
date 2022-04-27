@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# stream-spaces
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+stream-spaces is a Gmail Spaces Clone built with Stream and the React SDK.
 
-## Available Scripts
+![Finished application view](./demo.png)
 
-In the project directory, you can run:
+## Quick Links
 
-### `npm start`
+- [Register](https://getstream.io/chat/trial/) to get an API key for your Stream App
+- [React Chat SDK](https://github.com/GetStream/stream-chat-react)
+- [React Chat Tutorial](https://getstream.io/chat/react-chat/tutorial/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## What is Stream?
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Stream allows developers to rapidly deploy scalable feeds and chat messaging with an industry-leading 99.999% uptime SLA guarantee. With Stream’s chat components, developers can quickly add chat to their app for a variety of use-cases:
 
-### `npm test`
+- Livestreams like Twitch or Youtube
+- In-Game chat like Overwatch or Fortnite
+- Team style chat like Slack
+- Messaging style chat like Whatsapp or Facebook’s messenger
+- Commerce chat like Drift or Intercom
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Repo Overview 😎
 
-### `npm run build`
+This repo contains for source code for the [How to Code a Gmail Spaces Clone with React](https://getstream.io/blog/gmail-spaces-clone-react/) tutorial article on Stream's blog.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Supported functionalities in this clone include:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Sign in using different user accounts
+- Creating new spaces with add members functionality
+- Navigating chat spaces with the URL
+- Browsing spaces
+- Pinning spaces
+- Joining/Leaving spaces
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Requirements 🛠
 
-### `npm run eject`
+- [Register](https://getstream.io/chat/trial/) and create a Stream app (you can call stream-spaces or whatever you want)
+- [Install Node v16.13.1](https://nodejs.org/ru/blog/release/v16.13.1/) (16.13.1 is the version used for this project)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Steps to Run Locally 🧑‍💻👩‍💻
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Clone this repo:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  ```bash
+  git clone https://github.com/dillionmegida/stream-spaces
+  ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Install dependencies:
 
-## Learn More
+  ```bash
+  npm install
+  ## or
+  yarn
+  ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Add the API key of your Stream app to [src/views/SpacesPage, line 13](./src/views/SpacesPage.js#L13)
+- Start server:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  ```bash
+  npm run start
+  ```
 
-### Code Splitting
+Your Gmail Spaces clone will be live on `localhost:3000` and you can begin experimenting the functionalities or adding yours 😁
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Kindly leave a star on the [React Chat SDK](https://github.com/GetStream/stream-chat-react) if you enjoyed the result of the tutorial :)
